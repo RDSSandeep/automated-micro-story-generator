@@ -20,6 +20,7 @@ build/
 .coverage
 htmlcov/
 test_results.txt
+*.zip
 
 # IDE
 .idea/

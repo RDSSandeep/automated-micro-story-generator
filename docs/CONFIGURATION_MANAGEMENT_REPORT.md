@@ -80,6 +80,14 @@ main (production)
 - Prefix with scope when helpful: `feat:`, `fix:`, `docs:`, `test:`
 - Example: `feat: add AI mode with Claude API fallback`
 
+### 3.3 Process Followed on This Project
+
+The workflow above was followed for this project:
+
+1. **Feature/v1-template-engine:** Created from `develop`, implemented V1 (restructured project, templates, input handler, tests). Committed and merged to `develop`. Tagged `v1.0`.
+2. **Feature/v2-ai-generation:** Created from `develop`, added AI integration (config, ai_generator, mode selection). Committed and merged to `develop`. Tagged `v2.0`.
+3. **Release:** Merged `develop` into `main`. All work was tested on branches before merging.
+
 ---
 
 ## 4. Release Tagging
@@ -103,10 +111,20 @@ git push origin v1.0
 
 ## 5. Repository State
 
-### 5.1 Git Log
+### 5.1 Git Log (with merge history)
 
 ```
-$ git log --oneline --graph -20
+$ git log --oneline --graph -15
+*   0409738 Merge develop: Release v2.0
+|\  
+| *   5c071a3 Merge feature/v2-ai-generation: AI-enhanced story generation
+| |\  
+| | * 58fece9 feat: V2 AI-enhanced story generation with Claude API
+| |/  
+| * 694af53 Merge feature/v1-template-engine: Template-based story generator
+|/| 
+| * f04d83f feat: V1 template-based story generator with genre support
+|/  
 * 2b81f66 Initial commit from local folder
 * 963c75c Initial commit
 ```
@@ -116,6 +134,9 @@ $ git log --oneline --graph -20
 ```
 $ git branch -a
 * main
+  develop
+  feature/v1-template-engine
+  feature/v2-ai-generation
   remotes/origin/HEAD -> origin/main
   remotes/origin/main
 ```
