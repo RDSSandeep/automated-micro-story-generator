@@ -1,7 +1,9 @@
-"""Tests for story_generator module (V1)."""
+"""Tests for story_generator module."""
 
 import pytest
-from src.story_generator import generate_story
+from unittest.mock import patch
+
+from src.story_generator import generate_story, generate_template_story
 
 
 class TestGenerateStory:
@@ -34,3 +36,22 @@ class TestGenerateStory:
         story = generate_story(["wizard", "tower", "crystal"], genre="fantasy")
         paragraphs = [p.strip() for p in story.split("\n\n") if p.strip()]
         assert len(paragraphs) >= 2
+
+    def test_template_mode_returns_template_story(self):
+        story = generate_story(["knight", "forest", "sword"], mode="template")
+        assert "knight" in story and "forest" in story
+        assert isinstance(story, str)
+
+    @patch("src.story_generator.generate_ai_story")
+    def test_ai_mode_success_returns_ai_story(self, mock_ai_story):
+        mock_ai_story.return_value = "An AI-generated tale of a knight."
+        story = generate_story(["knight", "forest", "sword"], mode="ai")
+        assert story == "An AI-generated tale of a knight."
+        mock_ai_story.assert_called_once_with(["knight", "forest", "sword"], None)
+
+    @patch("src.story_generator.generate_ai_story")
+    def test_ai_mode_fallback_returns_template_story(self, mock_ai_story):
+        mock_ai_story.return_value = None
+        story = generate_story(["knight", "forest", "sword"], mode="ai")
+        assert "knight" in story and "forest" in story
+        assert isinstance(story, str)
